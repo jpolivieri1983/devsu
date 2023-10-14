@@ -5,19 +5,19 @@ FROM python:3.12.0
 WORKDIR /app
 
 # Copy the requirements file to the working directory
-#COPY requirements.txt ./app
+COPY requirements.txt ./
 
 # Install the Python dependencies
-#RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 #Migrate database ???
 #RUN py manage.py makemigrations
 #RUN py manage.py migrate
 
 # Copy the rest of the application code to the working directory
-COPY . ./app
+COPY . ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+
 
 # Expose the port on which the app will run
 EXPOSE 8000
@@ -27,6 +27,6 @@ EXPOSE 8000
 #CMD [ "python", "manage.py test" ]
 #CMD [ "python", "./app/manage.py" ]  
 #runserver
-CMD [ "python", "./app/hello.py" ]  
+CMD [ "python", "hello.py" ]  
 
 #ENTRYPOINT [ "yarn", "start:prod" ]
