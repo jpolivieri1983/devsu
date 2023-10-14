@@ -18,6 +18,7 @@ COPY . ./
 #RUN py manage.py migrate
 RUN python manage.py makemigrations
 RUN python manage.py migrate
+RUN python manage.py test
 
 # Expose the port on which the app will run
 EXPOSE 8000
