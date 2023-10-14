@@ -23,6 +23,7 @@ EXPOSE 8000
 # Specify the command to run the application
 #CMD [ "python", "app.py" ]
 #CMD [ "python", "manage.py test" ]
-CMD [ "python", "manage.py runserver" ]
+CMD [ "python", "manage.py" ]  
+#runserver
 
 #ENTRYPOINT [ "yarn", "start:prod" ]
