@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the app code to the working directory
 COPY . ./
 
-#Migrate database ???
+# Migrate database actions
 #RUN py manage.py makemigrations
 #RUN py manage.py migrate
 RUN python manage.py makemigrations
@@ -24,10 +24,10 @@ RUN python manage.py test
 EXPOSE 8000
 
 # Run the app
-#CMD [ "python", "app.py" ]
 #CMD [ "python", "manage.py test" ]
 #CMD [ "python", "manage.py runserver" ]  
+CMD [ "manage.py runserver 0.0.0.0:8080" ] 
 
-CMD ["hello.py" ]  
+#CMD ["hello.py" ]  
 
 ENTRYPOINT ["python"]
