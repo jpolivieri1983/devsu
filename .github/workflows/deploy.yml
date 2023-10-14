@@ -1,5 +1,5 @@
 on:
-  workflow_dispatch:
+  workflow_dispatch:  #manual execution
   #push:
   #  branches: 
   #    - master
@@ -16,18 +16,6 @@ jobs:
         id: enviroment
         run: |
           echo "This is code_build"
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      #- name: Build and push
-      #  uses: docker/build-push-action@v4
-      #  with:
-      #    push: true
-      #    tags: jolivieridocker/devsu:latest
 
   unit_test:
     runs-on: ubuntu-latest
@@ -60,6 +48,31 @@ jobs:
         id: enviroment
         run: |
            echo "This is docker_build_push" 
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+     #     - name: Build, tag, and push image to Amazon ECR
+     #     id: build-image
+     #     env:
+     #       ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+     #       ECR_REPOSITORY: sam-${{ steps.enviroment.outputs.enviroment }}-ecr-${{ env.SERVICE }}
+     #       IMAGE_TAG: ${{ github.sha }}
+     #     run: |
+     #       docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+     #       docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+     #       docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+     #       echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT          
+
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: jolivieridocker/devsu:latest
 
   vulnerability_scan:  #optional
     runs-on: ubuntu-latest

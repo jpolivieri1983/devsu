@@ -9,13 +9,6 @@ on:
 
 jobs:
 
-#unit test
-#static code analysis
-#code coverage
-#docker build and push
-#vulnerability scan?
-#deploy on k8s (docker desktop)
-
   codebuild:
     runs-on: ubuntu-latest
     steps:
