@@ -1,7 +1,8 @@
 on:
-  push:
-    branches: 
-      - master
+  workflow_dispatch:
+  #push:
+  #  branches: 
+  #    - master
 
 #env:
 #  SERVICE: consumer
