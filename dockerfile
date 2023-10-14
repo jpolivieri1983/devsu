@@ -10,14 +10,14 @@ COPY requirements.txt ./
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the rest of the app code to the working directory
+COPY . ./
+
 #Migrate database ???
 #RUN py manage.py makemigrations
 #RUN py manage.py migrate
 RUN python manage.py makemigrations
 RUN python manage.py migrate
-
-# Copy the rest of the app code to the working directory
-COPY . ./
 
 # Expose the port on which the app will run
 EXPOSE 8000
