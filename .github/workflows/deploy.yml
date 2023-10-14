@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:  #manual execution
-  #push:
-  #  branches: 
-  #    - master
+  push:               #automatic execution
+    branches: 
+      - main
 
 #env:
 #  SERVICE: consumer

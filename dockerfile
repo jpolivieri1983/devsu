@@ -10,9 +10,9 @@ COPY requirements.txt .
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-#Migrate database
-RUN py manage.py makemigrations
-RUN py manage.py migrate
+#Migrate database ???
+#RUN py manage.py makemigrations
+#RUN py manage.py migrate
 
 # Copy the rest of the application code to the working directory
 COPY . .
