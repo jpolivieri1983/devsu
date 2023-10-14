@@ -17,13 +17,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Expose the port on which the Flask app will run
+# Expose the port on which the app will run
 EXPOSE 8000
 
 # Specify the command to run the application
 #CMD [ "python", "app.py" ]
 #CMD [ "python", "manage.py test" ]
-CMD [ "python", "manage.py" ]  
+CMD [ "python", "./app/manage.py" ]  
 #runserver
 
 #ENTRYPOINT [ "yarn", "start:prod" ]
