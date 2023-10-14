@@ -5,10 +5,10 @@ FROM python:3.12.0
 WORKDIR /app
 
 # Copy the requirements file to the working directory
-COPY requirements.txt ./app
+#COPY requirements.txt ./app
 
 # Install the Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+#RUN pip install --no-cache-dir -r requirements.txt
 
 #Migrate database ???
 #RUN py manage.py makemigrations
@@ -16,6 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code to the working directory
 COPY . ./app
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the port on which the app will run
 EXPOSE 8000
