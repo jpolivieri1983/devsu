@@ -1,4 +1,4 @@
-# Using the official Python 3.10 image as the base image
+# Using the official Python 3.12 image as base image
 FROM python:3.12.0 
 
 # Set the working directory inside the container
@@ -13,20 +13,20 @@ RUN pip install --no-cache-dir -r requirements.txt
 #Migrate database ???
 #RUN py manage.py makemigrations
 #RUN py manage.py migrate
+RUN python manage.py makemigrations
+RUN python manage.py migrate
 
-# Copy the rest of the application code to the working directory
+# Copy the rest of the app code to the working directory
 COPY . ./
-
-
 
 # Expose the port on which the app will run
 EXPOSE 8000
 
-# Specify the command to run the application
+# Run the app
 #CMD [ "python", "app.py" ]
 #CMD [ "python", "manage.py test" ]
-#CMD [ "python", "./app/manage.py" ]  
-#runserver
-CMD [ "python", "hello.py" ]  
+#CMD [ "python", "manage.py runserver" ]  
 
-#ENTRYPOINT [ "yarn", "start:prod" ]
+CMD ["hello.py" ]  
+
+ENTRYPOINT ["python"]
