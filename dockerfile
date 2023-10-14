@@ -26,7 +26,7 @@ EXPOSE 8000
 # Run the app
 #CMD [ "python", "manage.py test" ]
 #CMD [ "python", "manage.py runserver" ]  
-CMD [ "manage.py runserver" ] 
+CMD [ "manage.py runserver 0:8000" ] 
 
 #CMD ["hello.py" ]  
 
