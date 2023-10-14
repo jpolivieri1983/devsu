@@ -1,0 +1,89 @@
+on:
+  push:
+    branches: 
+      - master
+
+#env:
+#  SERVICE: consumer
+#  SERVICEC: Consumer
+
+jobs:
+  code_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+          echo "This is code_build"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      #- name: Build and push
+      #  uses: docker/build-push-action@v4
+      #  with:
+      #    push: true
+      #    tags: jolivieridocker/devsu:latest
+
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is unit_test"
+
+  static_code_analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is static_code_analysis"
+
+  code_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is code_coverage"       
+
+  docker_build_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is docker_build_push" 
+
+  vulnerability_scan:  #optional
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is vulnerability_scan"   
+ 
+  deploy_docker_k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is deploy_docker_k8s"            
+           
+
+    #  - name: Build, tag, and push image to Amazon ECR
+    #    id: build-image
+    
+    #    run: |
+    #      docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+    #      docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+    #      docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+    #      echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+  
+          
