@@ -14,17 +14,26 @@ jobs:
       - name: Set enviroment
         id: enviroment
         run: |
-          echo "This is code_build"
+          echo "This is code_build job"
+      
+      - name: Checkout
+        uses: actions/checkout@v4
 
   unit_test:
+    needs: code_build
     runs-on: ubuntu-latest
     steps:
       - name: Set enviroment
         id: enviroment
         run: |
            echo "This is unit_test"
+      - name: Test with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html           
 
   static_code_analysis:
+    needs: unit_test
     runs-on: ubuntu-latest
     steps:
       - name: Set enviroment
@@ -33,6 +42,7 @@ jobs:
            echo "This is static_code_analysis"
 
   code_coverage:
+    needs: static_code_analysis
     runs-on: ubuntu-latest
     steps:
       - name: Set enviroment
@@ -41,6 +51,7 @@ jobs:
            echo "This is code_coverage"       
 
   docker_build_push:
+    needs: code_coverage
     runs-on: ubuntu-latest
     steps:
       - name: Set enviroment
@@ -84,7 +95,7 @@ jobs:
         run: |
            echo "This is vulnerability_scan"   
  
-  deploy_docker_k8s:
+  deploy_docker_k8s:  #check
     runs-on: ubuntu-latest
     steps:
       - name: Set enviroment

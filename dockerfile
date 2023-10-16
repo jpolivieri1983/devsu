@@ -26,8 +26,7 @@ EXPOSE 8000
 # Run the app
 #CMD [ "python", "manage.py test" ]
 #CMD [ "python", "manage.py runserver" ]  
-CMD [ "manage.py" ] 
-
 #CMD ["hello.py" ]  
+CMD [ "manage.py" ] 
 
 ENTRYPOINT ["python"]
