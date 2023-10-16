@@ -45,7 +45,7 @@ jobs:
           pip install pytest
       - name: Test with pytest
         #run: pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
-        run: pytest /home/runner/work/devsu/devsu/api/tests.py --doctest-modules --junitxml=junit/test-results.xml
+        run: pytest ./home/runner/work/devsu/devsu/api/tests.py --doctest-modules --junitxml=junit/test-results.xml
       - name: Upload pytest test results
         uses: actions/upload-artifact@v3
         with:
