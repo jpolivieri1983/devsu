@@ -22,14 +22,16 @@ jobs:
     needs: code_build
     runs-on: ubuntu-latest
     steps:
+      #### DEBUG 
       - name : /home/runner/work/devsu/devsu
         run : "ls /home/runner/work/devsu/devsu"
       - name : machine ls $GITHUB_WORKSPACE
         run : "ls -la $GITHUB_WORKSPACE"
       - name : machine ls $HOME
         working-directory : "."
-        run : "ls -la $${{ github.workspace"
-      
+        run : "ls -la $HOME"
+      #### DEBUG 
+
       - name: Set enviroment
         id: enviroment
         run: |
