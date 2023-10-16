@@ -31,11 +31,22 @@ jobs:
       #  run: |
       #    pip install pytest pytest-cov
       #    pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
-      - name: Lint with Ruff
+
+      # Install pip and pytest
+      - name: Install dependencies
         run: |
-          pip install ruff
-          ruff --output-format=github .
-        continue-on-error: true                    
+          python -m pip install --upgrade pip
+          pip install pytest
+      - name: Test with pytest
+        run: pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
+      - name: Upload pytest test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-results
+          path: junit/test-results.xml
+      # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
+           
 
   static_code_analysis:
     needs: unit_test
@@ -45,6 +56,12 @@ jobs:
         id: enviroment
         run: |
            echo "This is static_code_analysis"
+
+      - name: Lint with Ruff
+        run: |
+          pip install ruff
+          ruff --output-format=github .
+        continue-on-error: true                    
 
   code_coverage:
     needs: static_code_analysis
