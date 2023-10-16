@@ -23,8 +23,14 @@ jobs:
     needs: code_build
     runs-on: ubuntu-latest
     steps:
-      - name: test
-        run: ls     
+      - name : machine ls $GITHUB_EVENT_PATH
+        run : "ls -la $GITHUB_EVENT_PATH"
+      - name : machine ls $GITHUB_WORKSPACE
+        run : "ls -la $GITHUB_WORKSPACE"
+      - name : machine ls $HOME
+        working-directory : "."
+        run : "ls -la $HOME"
+      
       - name: Set enviroment
         id: enviroment
         run: |
