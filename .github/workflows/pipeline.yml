@@ -15,9 +15,11 @@ jobs:
         id: enviroment
         run: |
           echo "This is code_build job"
+      
       - name: Checkout
         uses: actions/checkout@v4
 
+# Unit testing using PyTest        
   unit_test:
     needs: code_build
     runs-on: ubuntu-latest
@@ -25,7 +27,8 @@ jobs:
       - name: Set enviroment
         id: enviroment
         run: |
-           echo "This is unit_test"
+           echo "This is unit_test job"
+      
       - name: Checkout
         uses: actions/checkout@v4
       
@@ -62,7 +65,7 @@ jobs:
       # Use always() to always run this step to publish test results when there are test failures
      #   if: ${{ always() }}
            
-
+# Static Code Analysis using Ruff
   static_code_analysis:
     needs: unit_test
     runs-on: ubuntu-latest
@@ -70,7 +73,8 @@ jobs:
       - name: Set enviroment
         id: enviroment
         run: |
-           echo "This is static_code_analysis"
+           echo "This is static_code_analysis job"
+      
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -80,7 +84,7 @@ jobs:
           ruff check --fix .
         continue-on-error: true                    
 
-
+# Code Coverage Analaysis using PyTest-Cov
   code_coverage:
     needs: static_code_analysis
     runs-on: ubuntu-latest
@@ -91,7 +95,7 @@ jobs:
            echo "This is code_coverage"       
     # aca puedo usar el coverage del pytest
 
-
+# Build Docker image and push it to Docker Hub
   docker_build_push:
     needs: code_coverage
     runs-on: ubuntu-latest
@@ -99,26 +103,16 @@ jobs:
       - name: Set enviroment
         id: enviroment
         run: |
-           echo "This is docker_build_push" 
-
+           echo "This is docker_build_push job" 
+      
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}  
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-     #     - name: Build, tag, and push image to Amazon ECR
-     #     id: build-image
-     #     env:
-      
-     #     run: |
-     #       docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-     #       docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-     #       docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
-     #       echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT          
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -138,23 +132,31 @@ jobs:
         run: |
            echo "This is vulnerability_scan"   
  
-
-  deploy_docker_k8s:  #check
+  CodeQL-Build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Set enviroment
-        id: enviroment
-        run: |
-           echo "This is deploy_docker_k8s"            
-           
-
-    #  - name: Build, tag, and push image to Amazon ECR
-    #    id: build-image
-    
-    #    run: |
-    #      docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-    #      docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-    #      docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
-    #      echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-  
+    permissions:
+      security-events: write
+      actions: read
           
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ];
+          then pip install -r requirements.txt;
+          fi
+          # Set the `CODEQL-PYTHON` environment variable to the Python executable that includes the dependencies
+          echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: python
+          # Override the default behavior so that the action doesn't attempt to auto-install Python dependencies
+          setup-python-dependencies: false
+           
