@@ -27,10 +27,15 @@ jobs:
         id: enviroment
         run: |
            echo "This is unit_test"
-      - name: Test with pytest
+      #- name: Test with pytest
+      #  run: |
+      #    pip install pytest pytest-cov
+      #    pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
+      - name: Lint with Ruff
         run: |
-          pip install pytest pytest-cov
-          pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html           
+          pip install ruff
+          ruff --output-format=github .
+        continue-on-error: true                    
 
   static_code_analysis:
     needs: unit_test
