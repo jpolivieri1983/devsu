@@ -25,29 +25,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       #### DEBUG 
-      - name : /home/runner/work/devsu/devsu
-        run : "ls /home/runner/work/devsu/devsu"
+      #- name : /home/runner/work/devsu/devsu
+      #  run : "ls /home/runner/work/devsu/devsu"
       - name : machine ls $GITHUB_WORKSPACE
         run : "ls -la $GITHUB_WORKSPACE"
-      - name : machine ls $HOME
-        working-directory : "."
-        run : "ls -la $HOME"
+      #- name : machine ls $HOME
+      #  working-directory : "."
+      #  run : "ls -la $HOME"
       #### DEBUG 
 
       - name: Set enviroment
         id: enviroment
         run: |
            echo "This is unit_test"
-      #- name: Test with pytest
-      #  run: |
-      #    pip install pytest pytest-cov
-      #    pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
+      - name: Test with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
 
       # Install pip and pytest
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov
+     # - name: Install dependencies
+     #   run: |
+     #     python -m pip install --upgrade pip
+     #     pip install pytest pytest-cov
      # - name: Test with pytest
      #   #run: pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
      #   run: pytest ./home/runner/work/devsu/devsu/api/tests.py --doctest-modules --junitxml=junit/test-results.xml
