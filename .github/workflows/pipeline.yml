@@ -77,7 +77,7 @@ jobs:
       - name: Lint with Ruff
         run: |
           pip install ruff
-          ruff --output-format=github .
+          ruff check .
         continue-on-error: true                    
 
 
@@ -138,7 +138,7 @@ jobs:
         run: |
            echo "This is vulnerability_scan"   
  
-           
+
   deploy_docker_k8s:  #check
     runs-on: ubuntu-latest
     steps:
