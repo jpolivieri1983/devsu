@@ -23,10 +23,8 @@ jobs:
     needs: code_build
     runs-on: ubuntu-latest
     steps:
-      - name : machine ls $GITHUB_EVENT_PATH
-        run : "ls -la $GITHUB_EVENT_PATH"
-      - name : machine ls $GITHUB_WORKSPACE
-        run : "ls -la $GITHUB_WORKSPACE"
+      - name : /home/runner/work/devsu/devsu
+        run : "ls /home/runner/work/devsu/devsu"
       - name : machine ls $HOME
         working-directory : "."
         run : "ls -la $HOME"
@@ -47,7 +45,7 @@ jobs:
           pip install pytest
       - name: Test with pytest
         #run: pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
-        run: pytest ../api/tests.py --doctest-modules --junitxml=junit/test-results.xml
+        run: pytest /home/runner/work/devsu/devsu/api/tests.py --doctest-modules --junitxml=junit/test-results.xml
       - name: Upload pytest test results
         uses: actions/upload-artifact@v3
         with:
