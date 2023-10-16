@@ -23,6 +23,8 @@ jobs:
     needs: code_build
     runs-on: ubuntu-latest
     steps:
+      - name: test
+        run: ls     
       - name: Set enviroment
         id: enviroment
         run: |
@@ -39,7 +41,7 @@ jobs:
           pip install pytest
       - name: Test with pytest
         #run: pytest tests.py --doctest-modules --junitxml=junit/test-results.xml
-        run: pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml
+        run: pytest ../api/tests.py --doctest-modules --junitxml=junit/test-results.xml
       - name: Upload pytest test results
         uses: actions/upload-artifact@v3
         with:
