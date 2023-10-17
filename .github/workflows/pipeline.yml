@@ -17,7 +17,7 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - name: Set enviroment
+      - name: Set step
         id: enviroment
         run: |
           echo "This is BUILD step"
@@ -40,7 +40,7 @@ jobs:
           
 
 # Unit testing using PyTest        
-      - name: Set enviroment
+      - name: Set step
         run: |
            echo "This is UNIT TEST step"
       
@@ -61,7 +61,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest pytest-cov
-          pytest /api/tests.py --doctest-modules --junitxml=junit/test-results.xml
+          pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml
        #pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
 
       #option 2
@@ -82,7 +82,7 @@ jobs:
      #   if: ${{ always() }}
            
 # Static Code Analysis using Ruff
-      - name: Set enviroment
+      - name: Set step
         run: |
            echo "This is STATIC CODE ANALYS step"
       
@@ -93,13 +93,13 @@ jobs:
         continue-on-error: true       #if detects an error and cannot fix it, then the pipeline should continue so it's not aborted  
 
 # Code Coverage Analaysis using PyTest-Cov
-      - name: Set enviroment
+      - name: Set step
         run: |
            echo "This is CODE COVERAGE step"       
     # aca puedo usar el coverage del pytest
 
 # Vulnerabilities Scan using CodeQL
-      - name: Set enviroment
+      - name: Set step
         run: |
            echo "This is VULNERABILITY SCAN step"         
 
@@ -118,7 +118,7 @@ jobs:
           setup-python-dependencies: false    # override default behavior to avoid installing Python dependencies
            
 # Build Docker image and push it to Docker Hub
-      - name: Set enviroment
+      - name: Set step
         run: |
            echo "This is docker_build_push job" 
 
