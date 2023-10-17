@@ -19,6 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+
 # Unit testing using PyTest        
   unit_test:
     needs: code_build
@@ -65,6 +66,7 @@ jobs:
       # Use always() to always run this step to publish test results when there are test failures
      #   if: ${{ always() }}
            
+
 # Static Code Analysis using Ruff
   static_code_analysis:
     needs: unit_test
@@ -82,7 +84,8 @@ jobs:
         run: |
           pip install ruff
           ruff check --fix .
-        continue-on-error: true                    
+        continue-on-error: true       #if detects and error and cannot fixed pipeline should continue so it's not aborted             
+
 
 # Code Coverage Analaysis using PyTest-Cov
   code_coverage:
@@ -94,6 +97,7 @@ jobs:
         run: |
            echo "This is code_coverage"       
     # aca puedo usar el coverage del pytest
+
 
 # Build Docker image and push it to Docker Hub
   docker_build_push:
@@ -124,39 +128,38 @@ jobs:
           tags: jolivieridocker/devsu:latest
 
 
-  vulnerability_scan:  #optional
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set enviroment
-        id: enviroment
-        run: |
-           echo "This is vulnerability_scan"   
- 
-  CodeQL-Build:
+# Vulnerabilities Scan using CodeQL
+  vulnerability_scan: 
     runs-on: ubuntu-latest
     permissions:
       security-events: write
       actions: read
           
     steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is vulnerability_scan job"         
+
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ];
           then pip install -r requirements.txt;
           fi
-          # Set the `CODEQL-PYTHON` environment variable to the Python executable that includes the dependencies
           echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: python
-          # Override the default behavior so that the action doesn't attempt to auto-install Python dependencies
-          setup-python-dependencies: false
+          setup-python-dependencies: false    # override default behavior to avoid installing Python dependencies
            
