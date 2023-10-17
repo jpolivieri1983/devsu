@@ -82,7 +82,8 @@ jobs:
       - name: Lint with Ruff
         run: |
           pip install ruff
-          ruff check . --fix --output-format text --output-file ruff-test-results.xml
+          ruff check --fix . > ruff-test-results.xml
+        #--output-format text --output-file ruff-test-results.xml
         continue-on-error: true       #if detects an error and cannot fix it, then the pipeline should continue so it's not aborted  
 
       - name: Upload ruff test results
