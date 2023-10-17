@@ -4,8 +4,8 @@ on:
     branches: 
       - main
 
-env:
-  DJANGO_SETTINGS_MODULE: './demo/settings'
+#env:
+#  DJANGO_SETTINGS_MODULE: './demo/settings'
 
 #env:
 #  SERVICE: consumer
