@@ -7,6 +7,13 @@ on:
 #env:
 #  SERVICE: consumer
 
+
+#que pongo en el Build?   https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
+#dockerfile que pongo en el manage.py runserver?
+#error en los unit test?
+
+
+
 jobs:
   code_build:
     runs-on: ubuntu-latest
