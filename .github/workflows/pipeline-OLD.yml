@@ -7,27 +7,25 @@ on:
 #env:
 #  SERVICE: consumer
 
+
 #dockerfile que pongo en el manage.py runserver?
 #error en los unit test?
 
-jobs:
-  build_push:
-    permissions:            #for vulnerability scan
-      security-events: write 
-      actions: read  
 
+jobs:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Set enviroment
         id: enviroment
         run: |
-          echo "This is BUILD step"
+          echo "This is build job"
       
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.12.0 
       
@@ -39,10 +37,19 @@ jobs:
           python manage.py makemigrations
           python manage.py migrate
 
+
 # Unit testing using PyTest        
+  unit_test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Set enviroment
+        id: enviroment
         run: |
-           echo "This is UNIT TEST step"
+           echo "This is unit_test job"
+      
+      - name: Checkout
+        uses: actions/checkout@v4
       
       #### DEBUG 
       #- name : /home/runner/work/devsu/devsu
@@ -77,35 +84,68 @@ jobs:
       # Use always() to always run this step to publish test results when there are test failures
      #   if: ${{ always() }}
            
+
 # Static Code Analysis using Ruff
+  static_code_analysis:
+    needs: unit_test
+    runs-on: ubuntu-latest
+    steps:
       - name: Set enviroment
+        id: enviroment
         run: |
-           echo "This is STATIC CODE ANALYS step"
+           echo "This is static_code_analysis job"
       
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Lint with Ruff
         run: |
           pip install ruff
           ruff check --fix .
         continue-on-error: true       #if detects an error and cannot fix it, then the pipeline should continue so it's not aborted  
 
+
 # Code Coverage Analaysis using PyTest-Cov
+  code_coverage:
+    needs: static_code_analysis
+    runs-on: ubuntu-latest
+    steps:
       - name: Set enviroment
+        id: enviroment
         run: |
-           echo "This is CODE COVERAGE step"       
+           echo "This is code_coverage"       
     # aca puedo usar el coverage del pytest
 
-# Vulnerabilities Scan using CodeQL
-      - name: Set enviroment
-        run: |
-           echo "This is VULNERABILITY SCAN step"         
 
-      #- name: Install dependencies
-      #  run: |
-      #    python -m pip install --upgrade pip
-      #    if [ -f requirements.txt ];
-      #    then pip install -r requirements.txt;
-      #    fi
-      #    echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
+# Vulnerabilities Scan using CodeQL
+  vulnerability_scan: 
+    needs: code_coverage
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+          
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is vulnerability_scan job"         
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ];
+          then pip install -r requirements.txt;
+          fi
+          echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
@@ -113,10 +153,19 @@ jobs:
           languages: python
           setup-python-dependencies: false    # override default behavior to avoid installing Python dependencies
            
+
 # Build Docker image and push it to Docker Hub
+  docker_build_push:
+    needs: vulnerability_scan
+    runs-on: ubuntu-latest
+    steps:
       - name: Set enviroment
+        id: enviroment
         run: |
            echo "This is docker_build_push job" 
+      
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
