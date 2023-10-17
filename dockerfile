@@ -19,7 +19,7 @@ COPY . ./
 RUN python manage.py makemigrations
 RUN python manage.py migrate
 RUN python manage.py test
-#RUN python manage.py runserver
+RUN python manage.py runserver
 
 # Expose the port on which the app will run
 EXPOSE 8000
@@ -28,6 +28,6 @@ EXPOSE 8000
 #CMD [ "python", "manage.py test" ]
 #CMD [ "python", "manage.py runserver" ]  
 #CMD ["hello.py" ]  
-#CMD [ "manage.py" ] 
+CMD [ "manage.py" , "runserver" ] 
 
-#ENTRYPOINT ["python"]
+ENTRYPOINT ["python"]
