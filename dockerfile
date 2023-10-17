@@ -29,7 +29,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 #ENV NAME World
 
 # Expose the port on which the app will run
-EXPOSE 80
+EXPOSE 8000
 
 # Run the app
 #CMD [ "python", "manage.py test" ]
