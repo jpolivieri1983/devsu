@@ -1,5 +1,6 @@
 # Using the official Python 3.12 image as base image
-FROM python:3.12.0 
+FROM python  
+#:3.12.0 
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -28,6 +29,8 @@ RUN python manage.py migrate
 
 #Define environment variable
 #ENV NAME World
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Expose the port on which the app will run
 EXPOSE 8000
@@ -36,4 +39,4 @@ EXPOSE 8000
 #CMD [ "python", "manage.py test" ]
 #CMD [ "python", "manage.py runserver" ]  
 #CMD ["hello.py" ]  
-CMD ["python", "manage.py" , "runserver" ] 
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
