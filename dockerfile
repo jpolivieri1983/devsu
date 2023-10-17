@@ -24,6 +24,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 #RUN python manage.py migrate
 #RUN python manage.py test
 #RUN python manage.py runserver
+RUN python manage.py migrate
 
 #Define environment variable
 #ENV NAME World
