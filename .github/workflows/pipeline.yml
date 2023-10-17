@@ -85,9 +85,6 @@ jobs:
           pip install ruff
           ruff check --fix .
         continue-on-error: true       #if detects an error and cannot fix it, then the pipeline should continue so it's not aborted  
-        
-      - name: alternative
-        uses: chartboost/ruff-action@v1
 
 
 # Code Coverage Analaysis using PyTest-Cov
