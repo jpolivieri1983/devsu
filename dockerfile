@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN python manage.py migrate
 
 #Define environment variables
+ENV DJANGO_SETTINGS_MODULE=demo/settings
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
