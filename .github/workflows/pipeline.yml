@@ -99,37 +99,9 @@ jobs:
     # aca puedo usar el coverage del pytest
 
 
-# Build Docker image and push it to Docker Hub
-  docker_build_push:
-    needs: code_coverage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set enviroment
-        id: enviroment
-        run: |
-           echo "This is docker_build_push job" 
-      
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}  
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: jolivieridocker/devsu:latest
-
-
 # Vulnerabilities Scan using CodeQL
   vulnerability_scan: 
+    needs: code_coverage
     runs-on: ubuntu-latest
     permissions:
       security-events: write
@@ -163,3 +135,31 @@ jobs:
           languages: python
           setup-python-dependencies: false    # override default behavior to avoid installing Python dependencies
            
+
+# Build Docker image and push it to Docker Hub
+  docker_build_push:
+    needs: vulnerability_scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set enviroment
+        id: enviroment
+        run: |
+           echo "This is docker_build_push job" 
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}  
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: jolivieridocker/devsu:latest
