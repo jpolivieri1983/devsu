@@ -7,11 +7,6 @@ on:
 #env:
 #  DJANGO_SETTINGS_MODULE: './demo/settings'
 
-#env:
-#  SERVICE: consumer
-
-#error en los unit test?
-
 jobs:
   build_push:
     permissions:            #for vulnerability scan
@@ -103,7 +98,8 @@ jobs:
       - name: Test with pytest-cov
         run: |
           python -m pip install coverage
-          coverage run api/tests.py 123
+          coverage run api/tests.py
+          coverage html
         #python -m pip install --upgrade pip
         #pip install pytest-cov
         #pytest ./api/tests.py --cov=com --cov-report=xml --cov-report=html
