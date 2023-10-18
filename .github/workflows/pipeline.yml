@@ -79,26 +79,26 @@ jobs:
         run: |
            echo "This is STATIC CODE ANALYS step"
       
-      - name: Lint with Ruff
-        run: |
-          pip install ruff
-          ruff check --fix .
+      #- name: Lint with Ruff
+      #  run: |
+      #    pip install ruff
+      #    ruff check --fix .
         #--output-format text --output-file ruff-test-results.xml
-        continue-on-error: true       #if detects an error and cannot fix it, then the pipeline should continue so it's not aborted  
+      #  continue-on-error: true       #if detects an error and cannot fix it, then the pipeline should continue so it's not aborted  
 
-      - name: Upload ruff test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: ruff-results
-          path: tests/ruff-test-results.xml
+      #- name: Upload ruff test results
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: ruff-results
+      #    path: tests/ruff-test-results.xml
         #always run this step to publish test results when there are test failures
-        if: ${{ always() }}  
+      #  if: ${{ always() }}  
         
-
       - name: Lint with Pylint
         run: |
           pip install pylint
-          python pylint --reports=y
+          pylint --recursive=y 
+      #--reports=y
 
 
 # Code Coverage Analaysis using PyTest-Cov
