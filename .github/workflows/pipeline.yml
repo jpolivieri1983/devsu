@@ -45,7 +45,7 @@ jobs:
           tee unit-tests.txt
           python -m pip install --upgrade pip
           pip install pytest 
-          pytest manage.py test --doctest-modules --junitxml=junit/test-results.xml
+          pytest manage.py --doctest-modules --junitxml=junit/test-results.xml
         #pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
       - name: Upload pytest test results
         uses: actions/upload-artifact@v3
