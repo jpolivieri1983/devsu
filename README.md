@@ -14,7 +14,7 @@ The pipeline can be triggered manually, on automatically everytime there is a pu
 - Second step, are the Unit Tests executed using PyTest, after its installation.
 
 ### Static Code Analysis
-- Third step, Static Code analysis is performed using Ruff.
+- Third step, Static Code analysis is performed using Pylint.
 
 ### Code Coverage
 - Code Coverage analysis is performed by PyTest-cov.
