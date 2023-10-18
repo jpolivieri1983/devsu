@@ -108,13 +108,13 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
-          output: tests/codeql-test-results
+          output: codeql-results/
 
       - name: Upload CodeQL test results
         uses: actions/upload-artifact@v3
         with:
           name: vulnerability-scan-results
-          path: python.sarif 
+          path: codeql-results/python.sarif 
         #always run this step to publish test results when there are test failures
         if: ${{ always() }}  
           
