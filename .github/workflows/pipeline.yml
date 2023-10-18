@@ -97,7 +97,9 @@ jobs:
       - name: Lint with Pylint
         run: |
           pip install pylint
+          pip install pylint-exit
           python -m pylint --enable=missing-docstring --recursive=y --reports=y *.py
+          pylint-exit $?
 
 
 
