@@ -98,8 +98,8 @@ jobs:
         run: |
           pip install pylint
           pip install pylint-exit
-          python -m pylint --enable=missing-docstring --recursive=y --reports=y *.py
-          pylint-exit $?
+          python -m pylint --enable=missing-docstring --recursive=y --reports=y *.py || pylint-exit $? |
+          tee pylint.txt
 
 
 
