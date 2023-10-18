@@ -11,13 +11,13 @@ The pipeline can be triggered manually, on automatically everytime there is a pu
 - First step is to do the Build, by installing the different components and dependencies required to run the Python application.
 
 ### Unit Test
-- Second step, are the Unit Tests executed using PyTest, after its installation.
+- Second step, are the Unit Tests execution.
 
 ### Static Code Analysis
 - Third step, Static Code analysis is performed using Pylint.
 
 ### Code Coverage
-- Code Coverage analysis is performed by PyTest-cov.
+- Code Coverage analysis is performed by Coverage.
 
 ### Vulnerability Scan
 - The Vulnerability Scan is executed using CodeQL official action from GitHub Actions marketplace.
