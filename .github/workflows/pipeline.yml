@@ -74,7 +74,7 @@ jobs:
         if: ${{ always() }}    
         
 
-# Static Code Analysis using Ruff
+# Static Code Analysis using Pylint
       - name: Set step STATIC CODE
         run: |
            echo "This is STATIC CODE ANALYS step"
@@ -101,6 +101,13 @@ jobs:
           python -m pylint --enable=missing-docstring --recursive=y --reports=y *.py || pylint-exit $? |
           tee pylint.txt
 
+      - name: Upload Pylint test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: Pylint-results
+          path: tests/pylint.txt
+       #always run this step to publish test results when there are test failures
+        if: ${{ always() }}  
 
 
 # Code Coverage Analaysis using PyTest-Cov
