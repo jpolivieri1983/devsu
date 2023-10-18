@@ -97,7 +97,7 @@ jobs:
       - name: Lint with Pylint
         run: |
           pip install pylint
-          pylint --recursive=y --reports=y app
+          pylint --recursive=y --reports=y manage.py
       #
 
 
