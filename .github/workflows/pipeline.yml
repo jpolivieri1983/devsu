@@ -4,9 +4,6 @@ on:
     branches: 
       - main
 
-#env:
-#  DJANGO_SETTINGS_MODULE: './demo/settings'
-
 jobs:
   build_push:
     permissions:            #for vulnerability scan
@@ -42,30 +39,18 @@ jobs:
         run: |
            echo "This is UNIT TEST step"
       
-      #### DEBUG 
-      #- name : /home/runner/work/devsu/devsu
-      #  run : "ls /home/runner/work/devsu/devsu"
-      #- name : machine ls $GITHUB_WORKSPACE
-      #  run : "ls -la $GITHUB_WORKSPACE"
-      #- name : machine ls $HOME
-      #  working-directory : "."
-      #  run : "ls -la $HOME"
-      #### DEBUG 
-
-      #python manage.py shell
-
-      - name: Test with pytest
+      - name: Execute Unit TestsTest with pytest ???
         run: |
           python manage.py test  |
           tee unit-tests.txt
-        #  python -m pip install --upgrade pip
-        #  pip install pytest 
-        #pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml
+          python -m pip install --upgrade pip
+          pip install pytest 
+          pytest manage.py test --doctest-modules --junitxml=junit/test-results.xml
         #pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html 
       - name: Upload pytest test results
         uses: actions/upload-artifact@v3
         with:
-          name: pytest-results
+          name: unit-tests-results
           path: unit-tests.txt
         #always run this step to publish test results when there are test failures
         if: ${{ always() }}    
@@ -86,8 +71,8 @@ jobs:
       #- name: Upload Pylint test results
       #  uses: actions/upload-artifact@v3
       #  with:
-      #    name: Pylint-results
-      #    path: pylint.txt
+      #    name: static-code-results
+      #    path: static-code.txt
        #always run this step to publish test results when there are test failures
       #  if: ${{ always() }}  
 
@@ -96,22 +81,18 @@ jobs:
       - name: Set step CODE COVERAGE
         run: |
            echo "This is CODE COVERAGE step"       
-    # aca puedo usar el coverage del pytest
+      
       - name: Test with pytest-cov
         run: |
           python -m pip install coverage
           coverage run manage.py test
           coverage html
-        #python -m pip install --upgrade pip
-        #pip install pytest-cov
-        #pytest ./api/tests.py --cov=com --cov-report=xml --cov-report=html
-        #pytest ./api/tests.py --doctest-modules --junitxml=junit/test-results.xml  
 
-      - name: Upload pytest test results
+      - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
-          name: pytest-cov-results
-          path: htmlcov/index.html  #tests/pytest-cov-test-results.xml
+          name: code-coverage-results
+          path: index.html  #tests/pytest-cov-test-results.xml
         #always run this step to publish test results when there are test failures
         if: ${{ always() }}    
 
@@ -135,8 +116,8 @@ jobs:
       #- name: Upload CodeQL test results
       #  uses: actions/upload-artifact@v3
       #  with:
-      #    name: codeql-results
-      #    path: tests/codeql-test-results/python.sarif 
+      #    name: vulnerability-scan-results
+      #    path: vulnerability-scan/python.sarif 
         #always run this step to publish test results when there are test failures
       #  if: ${{ always() }}  
           
