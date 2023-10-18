@@ -99,13 +99,13 @@ jobs:
           pip install pylint
           pip install pylint-exit
           python -m pylint --enable=missing-docstring --recursive=y --reports=y *.py || pylint-exit $? |
-          tee tests/pylint.txt
+          tee pylint.txt
 
       - name: Upload Pylint test results
         uses: actions/upload-artifact@v3
         with:
           name: Pylint-results
-          path: tests/pylint.txt
+          path: pylint.txt
        #always run this step to publish test results when there are test failures
         if: ${{ always() }}  
 
