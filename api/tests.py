@@ -2,8 +2,6 @@ import json
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from .models import User
-import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
 
 class TestUserView(APITestCase):
     def setUp(self):

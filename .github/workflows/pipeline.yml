@@ -97,6 +97,7 @@ jobs:
     # aca puedo usar el coverage del pytest
       - name: Test with pytest-cov
         run: |
+          python manage.py shell
           python -m pip install coverage
           coverage run api/tests.py
           coverage html
