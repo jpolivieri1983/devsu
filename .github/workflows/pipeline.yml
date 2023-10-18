@@ -111,7 +111,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pytest-cov-results
-          path: tests/pytest-cov-test-results.xml
+          path: htmlcov/index.html  #tests/pytest-cov-test-results.xml
         #always run this step to publish test results when there are test failures
         if: ${{ always() }}    
 
