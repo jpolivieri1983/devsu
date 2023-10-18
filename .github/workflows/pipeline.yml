@@ -97,9 +97,8 @@ jobs:
       - name: Lint with Pylint
         run: |
           pip install pylint
-          pylint --recursive=y --reports=y app/
-      #manage.py
-      #
+          pylint --recursive=y --reports=y *.py
+
 
 
 # Code Coverage Analaysis using PyTest-Cov
