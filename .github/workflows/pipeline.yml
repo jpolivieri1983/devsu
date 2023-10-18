@@ -125,7 +125,10 @@ jobs:
         with:
           languages: python
           setup-python-dependencies: false    # override default behavior to avoid installing Python dependencies
-           
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
       - name: Upload CodeQL test results
         uses: actions/upload-artifact@v3
         with:
